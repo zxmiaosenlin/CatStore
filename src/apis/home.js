@@ -18,3 +18,10 @@ export function getHotAPI() {
     url: '/home/new'
   })
 }
+
+//这里是产品列表的api
+export function getProductAPI() {
+  return httpInstance({
+    url: '/home/goods'
+  })
+}

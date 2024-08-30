@@ -4,16 +4,28 @@ import { onMounted } from 'vue';
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { getBannerAPI } from '@/apis/home.js'
+import { onBeforeRouteUpdate } from 'vue-router'
+
 import GoodsItem from '../Home/components/GoodsItem.vue'
 
 const categoryData = ref({})
 const route = useRoute()
-const getCategory = async () => {
-  const res = await getCategoryAPI(route.params.id)
+const getCategory = async (id = route.params.id) => {
+  const res = await getCategoryAPI(id)
   categoryData.value = res.data.result
 }
 
 // onMounted(() => { getCategory() })
+//期望在路由参数变化的时候  可以把分类数据接口重新发送
+onBeforeRouteUpdate((to) => {
+  //存在问题：需要使用最新的路由参数请求最新的分类数据
+  //但是这里拿不到最新的,因为是路由切换前，拿到的是之前的路径
+  //使用to就拿到了要跳转的对象
+  getCategory(to.params.id)
+})
+
+
+
 
 //获取banner
 const bannerList = ref([])

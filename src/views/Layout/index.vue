@@ -17,6 +17,8 @@ onMounted(() => {
   <LayoutNav />
   <LayoutFixed />
   <LayoutHeader />
-  <RouterView />
+  <!-- 这里是二级路由的出口 -->
+  <!-- <RouterView :key="$route.fullPath"/> -->
+  <RouterView /> 
   <LayoutFooter />
 </template>

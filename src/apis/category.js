@@ -9,3 +9,13 @@ export function getCategoryAPI(id) {
     }
   })
 }
+
+//SubCategory接口
+export function getCategoryFilterAPI(id) {
+  return httpInstance({
+    url: '/category/sub/filter',
+    params: {
+      id
+    }
+  })
+}

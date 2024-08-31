@@ -20,6 +20,9 @@ export function getCategoryFilterAPI(id) {
   })
 }
 
+//这里是基础商品列表的接口函数
+//这里使用的是POST请求
+//POST请求 能拿到体量更大的数据 而且更为安全 访问不到历史记录
 /**
  * @description: 获取导航数据
  * @data { 
@@ -33,6 +36,8 @@ export function getCategoryFilterAPI(id) {
 export const getSubCategoryAPI = (data) => {
   return httpInstance({
     url: '/category/goods/temporary',
+    //这里跟之前的区别是要写上method
+    //同时传入的请求参数还有data，要并列写在这个对象中
     method: 'POST',
     data
   })

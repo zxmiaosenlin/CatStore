@@ -119,8 +119,8 @@ onMounted(() => { detailAPI() })
             </div>
             <!-- 24热榜+专题推荐 -->
             <div class="goods-aside">
-              <DetailHot />
-              <DetailHot />
+              <DetailHot :hotType="1" :title="'24小时热榜'" />
+              <DetailHot :hotType="2" :title="'周热榜'" />
             </div>
           </div>
         </div>

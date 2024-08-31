@@ -11,6 +11,7 @@ const detailList = ref({})
 const route = useRoute()
 const detailAPI = async () => {
   const res = await getDetailAPI(route.params.id)
+  console.log(res)
   detailList.value = res.data.result
 }
 onMounted(() => { detailAPI() })
@@ -36,7 +37,7 @@ onMounted(() => { detailAPI() })
           <div class="goods-info">
             <div class="media">
               <!-- 图片预览区 -->
-              <ImageView />
+              <ImageView :imageList="detailList.mainPictures"/>
               <!-- 统计数量 -->
               <ul class="goods-sales">
                 <li>

@@ -1,14 +1,14 @@
 <script setup>
 import { getDetailAPI } from '@/apis/detail'
-import { onMounted } from 'vue';
-import { ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { onMounted } from 'vue'
+import { ref } from 'vue'
+import { useRoute } from 'vue-router'
+import DetailHot from '@/views/Detail/components/DetailHot.vue'
 
 const detailList = ref({})
 const route = useRoute()
 const detailAPI = async () => {
   const res = await getDetailAPI(route.params.id)
-  console.log(res)
   detailList.value = res.data.result
 }
 onMounted(() => { detailAPI() })
@@ -19,7 +19,7 @@ onMounted(() => { detailAPI() })
   <div class="xtx-goods-page">
     <div class="container" v-if="detailList.details">
       <!-- 面包屑导航区域 -->
-      <div class="bread-container" >
+      <div class="bread-container">
         <el-breadcrumb separator=">">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
           <el-breadcrumb-item :to="{ path: `/category/${detailList.categories[1].id}` }">{{
@@ -62,7 +62,7 @@ onMounted(() => { detailAPI() })
             </div>
             <div class="spec">
               <!-- 商品信息区 -->
-              <p class="g-name"> {{detailList.name}} </p>
+              <p class="g-name"> {{ detailList.name }} </p>
               <p class="g-desc">{{ detailList.desc }} </p>
               <p class="g-price">
                 <span>{{ detailList.price }}</span>
@@ -107,19 +107,20 @@ onMounted(() => { detailAPI() })
                   <!-- 属性 -->
                   <ul class="attrs">
                     <li v-for="item in detailList.details.properties" :key="item.value">
-                      <span class="dt">{{item.name}}</span>
-                      <span class="dd">{{item.value}}</span>
+                      <span class="dt">{{ item.name }}</span>
+                      <span class="dd">{{ item.value }}</span>
                     </li>
                   </ul>
                   <!-- 图片 -->
-                   <!-- 这里我用了懒加载 -->
-                  <img v-for="i in detailList.details.pictures" v-img-lazy="i" :key="i.value"  alt="">
+                  <!-- 这里我用了懒加载 -->
+                  <img v-for="i in detailList.details.pictures" v-img-lazy="i" :key="i.value" alt="">
                 </div>
               </div>
             </div>
             <!-- 24热榜+专题推荐 -->
             <div class="goods-aside">
-
+              <DetailHot />
+              <DetailHot />
             </div>
           </div>
         </div>

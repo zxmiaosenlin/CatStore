@@ -6,6 +6,7 @@ import { useRoute } from 'vue-router'
 import DetailHot from '@/views/Detail/components/DetailHot.vue'
 import ImageView from "@/components/ImageView/index.vue"
 
+
 const detailList = ref({})
 const route = useRoute()
 const detailAPI = async () => {
@@ -13,7 +14,6 @@ const detailAPI = async () => {
   detailList.value = res.data.result
 }
 onMounted(() => { detailAPI() })
-
 </script>
 
 <template>

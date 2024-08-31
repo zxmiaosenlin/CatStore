@@ -3,16 +3,32 @@ import { getCategoryFilterAPI } from '@/apis/category'
 import { ref } from 'vue';
 import { onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { getSubCategoryAPI } from '@/apis/category'
+import GoodsItem from '../Home/components/GoodsItem.vue';
 
 const route = useRoute()
 const categoryFilterList = ref({})
 const CategoryFilterAPI = async () => {
   const res = await getCategoryFilterAPI(route.params.id)
-  console.log(res);
-  
   categoryFilterList.value = res.data.result
 }
 onMounted(() => { CategoryFilterAPI() })
+
+//获取基础列表数据
+const goodList = ref([])
+const reqData = ref({
+  categoryId: route.params.id,
+  page: 1,
+  pageSize: 20,
+  sortField: 'publishTime'
+})
+const getGoodList = async () => {
+  const res = await getSubCategoryAPI(reqData.value)
+  console.log(res);
+  
+  goodList.value = res.data.result.items
+}
+onMounted(() => { getGoodList() })
 </script>
 
 <template>
@@ -21,8 +37,9 @@ onMounted(() => { CategoryFilterAPI() })
     <div class="bread-container">
       <el-breadcrumb separator=">">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item :to="{ path: `/category/${categoryFilterList.parentId}` }">{{ categoryFilterList.parentName }}</el-breadcrumb-item>
-        <el-breadcrumb-item>{{ categoryFilterList.name}}</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: `/category/${categoryFilterList.parentId}` }">{{ categoryFilterList.parentName
+          }}</el-breadcrumb-item>
+        <el-breadcrumb-item>{{ categoryFilterList.name }}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div class="sub-container">
@@ -33,6 +50,7 @@ onMounted(() => { CategoryFilterAPI() })
       </el-tabs>
       <div class="body">
         <!-- 商品列表-->
+      <GoodsItem v-for="goods in goodList" :key="goods.id" :goods="goods"/>
       </div>
     </div>
   </div>

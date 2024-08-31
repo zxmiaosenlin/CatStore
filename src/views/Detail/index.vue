@@ -4,6 +4,7 @@ import { onMounted } from 'vue'
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import DetailHot from '@/views/Detail/components/DetailHot.vue'
+import ImageView from "@/components/ImageView/index.vue"
 
 const detailList = ref({})
 const route = useRoute()
@@ -26,7 +27,7 @@ onMounted(() => { detailAPI() })
             detailList.categories[1].name }}</el-breadcrumb-item>
           <el-breadcrumb-item :to="{ path: `/category/sub/${detailList.categories[0].id}` }">{{
             detailList.categories[0].name }}</el-breadcrumb-item>
-          <el-breadcrumb-item>{{ detailList.desc }}</el-breadcrumb-item>
+          <el-breadcrumb-item>{{ detailList.name }}</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
       <!-- 商品信息 -->
@@ -35,7 +36,7 @@ onMounted(() => { detailAPI() })
           <div class="goods-info">
             <div class="media">
               <!-- 图片预览区 -->
-
+              <ImageView />
               <!-- 统计数量 -->
               <ul class="goods-sales">
                 <li>

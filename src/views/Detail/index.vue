@@ -4,8 +4,7 @@ import { onMounted } from 'vue'
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import DetailHot from '@/views/Detail/components/DetailHot.vue'
-import ImageView from "@/components/ImageView/index.vue"
-import XtxSku from '@/components/XtxSku/index.vue'
+
 
 const detailList = ref({})
 const route = useRoute()
@@ -91,7 +90,7 @@ const skuChange = (sku) => {
                 </dl>
               </div>
               <!-- sku组件 -->
-              <XtxSku :goods="detailList" @change="skuChange" />
+              <Sku :goods="detailList" @change="skuChange" />
               <!-- 数据组件 -->
 
               <!-- 按钮组件 -->

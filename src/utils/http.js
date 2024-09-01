@@ -2,7 +2,8 @@
 import axios from 'axios'
 import 'element-plus/theme-chalk/el-message.css'
 import { ElMessage } from 'element-plus'
-import { useUserStore } from '@/stores/user';
+import { useUserStore } from '@/stores/user'
+import router from '@/router'
 
 const httpInstance = axios.create({
   baseURL: 'https://pcapi-xiaotuxian-front-devtest.itheima.net',
@@ -31,10 +32,18 @@ httpInstance.interceptors.response.use(response => {
   // 对响应数据做点什么
   return response;
 }, error => {
+  const useStore = useUserStore()
   // 超出 2xx 范围的状态码都会触发该函数。
   // 对响应错误做点什么
   // 统一错误提示
   ElMessage({ type: 'warning', message: error.response.data.msg })
+  //401token失效处理
+  //1.清除本地用户数据
+  //2.跳转到登录页
+  if (error.response.status === 401) {
+    useStore.clearUserInfo()
+    router.push('/login')
+  }
   return Promise.reject(error);
 });
 

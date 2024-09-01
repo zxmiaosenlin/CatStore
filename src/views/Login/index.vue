@@ -1,9 +1,9 @@
 <script setup>
 import { ref } from 'vue'
-import { loginAPI } from '@/apis/user'
 import 'element-plus/theme-chalk/el-message.css'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user'
 
 //表单校验功能(账户名 + 密码)
 
@@ -36,18 +36,18 @@ const rules = {
 //1.获取表单实例
 const formRef = ref(null)
 const router = useRouter()
+const useStore = useUserStore()
 const doLogin = () => {
   const { account, password } = form.value
   formRef.value.validate(async (valid) => {
     //所有表单都通过校验才为true
     if (valid) {
-      //执行登录逻辑 
-      const res = await loginAPI({ account, password })
-      console.log(res);
+      //执行登录逻辑 -- 通过pinia里面定义的方法
+      await useStore.getUserInfo({ account, password })
       //1.提示用户
       //2.跳转页面到主页
       ElMessage({ type: 'success', message: '登陆成功' })
-      router.replace({path: '/'})
+      router.replace({ path: '/' })
     }
   })
 }

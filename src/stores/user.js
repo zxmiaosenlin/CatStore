@@ -13,4 +13,4 @@ export const useUserStore = defineStore('user', () => {
     userInfo.value = (await res).data.result
   }
   return { userInfo, getUserInfo }
-})
+}, { persist: true })

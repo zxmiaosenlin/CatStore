@@ -16,11 +16,12 @@ import { componentPlugin } from './components'
 
 const app = createApp(App)
 const pinia = createPinia()
+pinia.use(createPersistedState())
 app.use(pinia)
 app.use(router)
 app.use(lazyPlugin)
 app.use(componentPlugin)
-pinia.use(createPersistedState)
+
 
 app.mount('#app')
 

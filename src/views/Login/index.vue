@@ -3,7 +3,7 @@ import { ref } from 'vue';
 
 //表单校验功能(账户名 + 密码)
 
-//1.准备表单对象
+//1.准备表单对象(这里只是一个简单的对象，目的是做一个响应式的对象传给目标)
 const form = ref({
   account: '',
   password: '',
@@ -26,6 +26,17 @@ const rules = {
     }}]
 }
 
+//对所有条件进行校验
+//1.获取表单实例
+const formRef = ref(null)
+const doLogin = () => {
+  formRef.value.validate((valid) => {
+    //所有表单都通过校验才为true
+    if (valid) {
+      //执行登录逻辑 
+    }
+  })
+}
 </script>
 
 
@@ -50,7 +61,8 @@ const rules = {
         </nav>
         <div class="account-box">
           <div class="form">
-            <el-form :model="form" :rules="rules" label-position="right" label-width="60px" status-icon>
+            <!-- model是表单数据的对象（就是内部的属性的一个对象） -->
+            <el-form :model="form" :rules="rules" ref="formRef" label-position="right" label-width="60px" status-icon>
               <el-form-item prop="account" label="账户">
                 <el-input v-model="form.account" />
               </el-form-item>
@@ -62,7 +74,7 @@ const rules = {
                   我已同意隐私条款和服务条款
                 </el-checkbox>
               </el-form-item>
-              <el-button size="large" class="subBtn">点击登录</el-button>
+              <el-button @click="doLogin" size="large" class="subBtn">点击登录</el-button>
             </el-form>
           </div>
         </div>

@@ -14,6 +14,7 @@
     </dl>
   </div>
 </template>
+
 <script>
 import { watchEffect } from 'vue'
 import getPowerSet from './power-set'

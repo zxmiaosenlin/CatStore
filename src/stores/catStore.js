@@ -4,12 +4,22 @@ import { computed, ref } from "vue"
 import { useUserStore } from "./user"
 import { insertCartAPI } from '@/apis/cart'
 import { findNewCartListAPI } from '@/apis/cart'
+import { delCartList } from "@/apis/cart"
 
 export const useCartStore = defineStore('cat', () => {
   const userStore = useUserStore()
   const isLogin = computed(() => userStore.userInfo.token)
   //state-cartList(购物车列表)
   const cartList = ref([])
+
+  //获取最新购物车列表函数
+  const updateNewList = async () => {
+    //调用获取最新购物车列表接口
+    const res = await findNewCartListAPI()
+    //用接口购物车列表覆盖本地购物车列表
+    cartList.value = res.data.result
+  }
+
   //action-添加购物车方法
   const addCard = async (goods) => {
     const { skuId, count } = goods
@@ -17,10 +27,7 @@ export const useCartStore = defineStore('cat', () => {
       //登录之后的加入购物车逻辑
       //调用加入购物车接口
       await insertCartAPI({ skuId, count })
-      //调用获取购物车列表接口
-      const res = await findNewCartListAPI()
-      //用接口购物车列表覆盖本地购物车列表
-      cartList.value = res.data.result
+      updateNewList()
     } else {
       //已添加过-count + 1
       //没添加过-直接push
@@ -39,17 +46,23 @@ export const useCartStore = defineStore('cat', () => {
   }
 
   //删除购物车
-  const delCart = (skuId) => {
-    //思路：数组中删除某一项
-    //方法一：找到要删除项的下标 使用splice
-    //方法二：使用filter
-    //1.splice
-    /* const index = cartList.value.findIndex(item => skuId === item.skuId)
-    cartList.value.splice(index, 1) */
-    //2.filter
-    cartList.value = cartList.value.filter(item => skuId !== item.skuId)
-
+  const delCart = async (skuId) => {
+    if (isLogin.value) {
+      //调用删除接口
+      await delCartList([skuId])
+      updateNewList()
+    } else {
+      //思路：数组中删除某一项
+      //方法一：找到要删除项的下标 使用splice
+      //方法二：使用filter
+      //1.splice
+      /* const index = cartList.value.findIndex(item => skuId === item.skuId)
+      cartList.value.splice(index, 1) */
+      //2.filter
+      cartList.value = cartList.value.filter(item => skuId !== item.skuId)
+    }
   }
+ 
   //计算总价
   const sumCount = computed(() => {
     //遍历数组？？

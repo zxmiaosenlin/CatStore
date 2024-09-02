@@ -26,3 +26,13 @@ export const delCartList = (ids) => {
     data: {ids}
   })
 }
+
+//合并购物车(合并本地+接口)
+//这里data是一个由skuId,selected,count 组成的数组
+export const mergeCartAPI = (data) => {
+  return httpInstance({
+    url: '/member/cart/merge',
+    method: 'POST',
+    data
+  })
+}

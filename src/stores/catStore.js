@@ -108,5 +108,5 @@ export const useCartStore = defineStore('cat', () => {
   }
   )
 
-  return { cartList, addCard, delCart, sumCount, sumNum, singleCheck, isAll, allCheck, allCount, allPrice, clearCart }
+  return { cartList, addCard, delCart, sumCount, sumNum, singleCheck, isAll, allCheck, allCount, allPrice, clearCart, updateNewList }
 }, { persist: true })

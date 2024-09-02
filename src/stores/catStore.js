@@ -64,5 +64,18 @@ export const useCartStore = defineStore('cat', () => {
   const allCheck = (selected) => {
     cartList.value.forEach(item => item.selected = selected)
   }
-  return { cartList, addCard, delCart, sumCount, sumNum, singleCheck, isAll, allCheck }
+  //计算已选择商品的数量
+  const allCount = computed(() => {
+    let sum = cartList.value.filter(item => item.selected === true).reduce((a, c) => a + c.count, 0)
+    return sum
+  }
+  )
+  //计算已选择商品的价格
+  const allPrice = computed(() => {
+    let sum = cartList.value.filter(item => item.selected === true).reduce((a, c) => a + c.count * c.price, 0)
+    return sum
+  }
+  )
+
+  return { cartList, addCard, delCart, sumCount, sumNum, singleCheck, isAll, allCheck, allCount, allPrice }
 }, { persist: true })

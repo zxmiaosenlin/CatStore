@@ -54,6 +54,8 @@ const allCheck = (selected) => {
                 <p>&yen;{{ i.price }}</p>
               </td>
               <td class="tc">
+                <!-- 这里是数量选择框 -->
+                <!-- 这里用v-model绑定，直接会修改数组中的count 所以不用担心了 -->
                 <el-input-number v-model="i.count" />
               </td>
               <td class="tc">
@@ -85,8 +87,8 @@ const allCheck = (selected) => {
       <!-- 操作栏 -->
       <div class="action">
         <div class="batch">
-          共 10 件商品，已选择 2 件，商品合计：
-          <span class="red">¥ 200.00 </span>
+          共 {{ cartStore.sumNum }} 件商品，已选择 {{ cartStore.allCount }} 件，商品合计：
+          <span class="red">¥ {{ cartStore.allPrice.toFixed(2) }} </span>
         </div>
         <div class="total">
           <el-button size="large" type="primary">下单结算</el-button>

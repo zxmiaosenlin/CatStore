@@ -44,7 +44,10 @@ export const useCartStore = defineStore('cat', () => {
       }
     }
   }
-
+  //清空购物车
+  const clearCart = () => {
+    cartList.value = []
+  }
   //删除购物车
   const delCart = async (skuId) => {
     if (isLogin.value) {
@@ -105,5 +108,5 @@ export const useCartStore = defineStore('cat', () => {
   }
   )
 
-  return { cartList, addCard, delCart, sumCount, sumNum, singleCheck, isAll, allCheck, allCount, allPrice }
+  return { cartList, addCard, delCart, sumCount, sumNum, singleCheck, isAll, allCheck, allCount, allPrice, clearCart }
 }, { persist: true })

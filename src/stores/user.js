@@ -3,8 +3,10 @@
 import { defineStore } from "pinia"
 import { ref } from "vue"
 import { loginAPI } from '@/apis/user'
+import { useCartStore } from "./catStore"
 
 export const useUserStore = defineStore('user', () => {
+  const userCart = useCartStore()
   //state
   const userInfo = ref({})
   //action
@@ -15,6 +17,8 @@ export const useUserStore = defineStore('user', () => {
   //退出时清除用户信息action
   const clearUserInfo = () => {
     userInfo.value = {}
+    //执行清除购物车的action函数
+    userCart.clearCart()
   }
   return { userInfo, getUserInfo, clearUserInfo }
 }, { persist: true })

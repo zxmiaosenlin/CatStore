@@ -15,6 +15,16 @@ const getPayInfo = async () => {
 }
 onMounted(() => { getPayInfo() })
 
+//跳转支付：携带订单id以及提前准备好的回跳地址(get请求)
+// 支付地址
+//基地址
+const baseURL = 'http://pcapi-xiaotuxian-front-devtest.itheima.net/'
+//回跳地址：支付后 支付宝给的页面地址 就是会跳转到这个页面进行操作
+const backURL = 'http://127.0.0.1:5173/paycallback'
+//这个是防止url特殊字符解析出错
+const redirectUrl = encodeURIComponent(backURL)
+//这个代码是一个支付URL，包含订单ID以及回跳地址，这个URL可以跳转到支付页面
+const payUrl = `${baseURL}pay/aliPay?orderId=${route.query.id}&redirect=${redirectUrl}`
 </script>
 
 

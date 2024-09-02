@@ -52,6 +52,12 @@ export const useCartStore = defineStore('cat', () => {
     }
     return sum
   })
+  //收集单选框的状态
+  const singleCheck = (skuId, selected) => {
+    //通过skuId来修改selected的状态
+    const item = cartList.value.find((item) => item.skuId === skuId)
+    item.selected = selected
+  }
 
-  return { cartList, addCard, delCart, sumCount, sumNum }
+  return { cartList, addCard, delCart, sumCount, sumNum, singleCheck }
 }, { persist: true })

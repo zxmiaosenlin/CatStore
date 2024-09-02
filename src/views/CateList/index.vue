@@ -1,7 +1,12 @@
 <script setup>
 import { useCartStore } from '@/stores/catStore'
 const cartStore = useCartStore()
-
+//单选框回调
+const checkboxChange = (i, s) => {
+  cartStore.singleCheck(i.skuId, s)
+  //无法知道要修改谁的选中状态
+  //除了selected 还需要知道该修改谁的 所以需要skuId
+}
 </script>
 
 <template>
@@ -25,7 +30,11 @@ const cartStore = useCartStore()
           <tbody>
             <tr v-for="i in cartStore.cartList" :key="i.id">
               <td>
-                <el-checkbox />
+                <!-- 这里是单选框 -->
+                <!-- 说实话到这里我都有点想骂这个老师了 -->
+                <!-- 这里后面选中状态发生改变的时候，触发的是一个回调函数，目的是将选中状态以及数组传到函数中 -->
+                <!-- 也就是说触发事件得到的是checkboxChange的函数 -->
+                <el-checkbox :model-value="i.selected" @change="(s) => checkboxChange(i, s)" />
               </td>
               <td>
                 <div class="goods">

@@ -1,11 +1,15 @@
 <script setup>
 import { getCheckInfoAPI } from '@/apis/checkout'
-import { onMounted } from 'vue';
-import { ref } from 'vue';
+import { onMounted } from 'vue'
+import { ref } from 'vue'
+import { createOrderAPI } from '@/apis/checkout'
+import { useRouter } from 'vue-router'
+import { useCartStore } from '@/stores/catStore'
 
 const checkInfo = ref({})  // 订单对象
 const defaultAddress = ref({}) //默认地址对象
-
+const router = useRouter()
+const cartStore = useCartStore()
 //调用接口函数 获取订单信息
 const getCheckInfo = async () => {
   const res = await getCheckInfoAPI()
@@ -26,6 +30,36 @@ const confirmAddress = () => {
   defaultAddress.value = activeAddress.value
   //关闭弹窗
   showDialog.value = false
+}
+
+//创建订单
+const createOrder = async () => {
+  //调用接口得到订单id
+  const res = await createOrderAPI({
+    //前面四个参数都是默认的，后面两个参数需要自己去处理
+    deliveryTimeType: 1,
+    payType: 1,
+    payChannel: 1,
+    buyerMessage: '',
+    goods: checkInfo.value.goods.map(item => {
+      return {
+        skuId: item.skuId,
+        count: item.count
+      }
+    })
+    ,
+    addressId: defaultAddress.value.id
+  })
+  
+  const orderId = res.data.result.id
+  router.push({
+    path: '/pay',
+    query: {
+      id: orderId
+    }
+  })
+  //更新购物车
+  cartStore.updateNewList()
 }
 </script>
 
@@ -121,7 +155,7 @@ const confirmAddress = () => {
         </div>
         <!-- 提交订单 -->
         <div class="submit">
-          <el-button type="primary" size="large">提交订单</el-button>
+          <el-button @click="createOrder" type="primary" size="large">提交订单</el-button>
         </div>
       </div>
     </div>
@@ -129,7 +163,8 @@ const confirmAddress = () => {
   <!-- 切换地址 -->
   <el-dialog v-model="showDialog" title="切换收货地址" width="30%" center>
     <div class="addressWrapper">
-      <div class="text item" @click="switchAddress(item)" v-for="item in checkInfo.userAddresses" :key="item.id" :class="{ active: item.id === activeAddress.id }">
+      <div class="text item" @click="switchAddress(item)" v-for="item in checkInfo.userAddresses" :key="item.id"
+        :class="{ active: item.id === activeAddress.id }">
         <ul>
           <li><span>收<i />货<i />人：</span>{{ item.receiver }} </li>
           <li><span>联系方式：</span>{{ item.contact }}</li>

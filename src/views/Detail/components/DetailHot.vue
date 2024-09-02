@@ -18,7 +18,6 @@ const getHotGoods = async () => {
     id: route.params.id,
     type: props.hotType
   })
-  console.log(res);
   HotGoodsList.value = res.data.result
 }
 onMounted(() => { getHotGoods() })

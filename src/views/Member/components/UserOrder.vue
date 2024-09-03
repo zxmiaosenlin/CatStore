@@ -1,7 +1,7 @@
 <script setup>
 import { getUserOrder } from '@/apis/order'
-import { onMounted } from 'vue';
-import { ref } from 'vue';
+import { onMounted } from 'vue'
+import { ref } from 'vue'
 // tab列表
 const tabTypes = [
   { name: "all", label: "全部订单" },
@@ -14,14 +14,17 @@ const tabTypes = [
 ]
 // 订单列表
 const orderList = ref([])
+const total = ref(0)
 const params = ref({
   orderState: 0,
   page: 1,
   pageSize: 2
 })
+
 const getOrderList = async () => {
   const res = await getUserOrder(params.value)
   orderList.value = res.data.result.items
+  total.value = res.data.result.counts
 }
 
 onMounted(() => { getOrderList() })
@@ -31,6 +34,15 @@ const tabChange = (type) => {
   params.value.orderState = type
   getOrderList()
 }
+
+//页数改变时触发的函数
+const pageChange = (num) => {
+  //把改变的页数给当前页
+  params.value.page = num
+  //重新获取当前页的数据 
+  getOrderList()
+}
+
 </script>
 
 <template>
@@ -112,7 +124,8 @@ const tabChange = (type) => {
           </div>
           <!-- 分页 -->
           <div class="pagination-container">
-            <el-pagination background layout="prev, pager, next" />
+            <el-pagination :total="total" background layout="prev, pager, next" 
+             @current-change="pageChange" :page-size="params.pageSize" />
           </div>
         </div>
       </div>

@@ -8,7 +8,7 @@ const confirm = () => {
   //1.清除用户数据
   useStore.clearUserInfo()
   //2.跳转到登录页面
-  router.push({path: '/login'})
+  router.push({ path: '/login' })
 }
 </script>
 
@@ -27,7 +27,8 @@ const confirm = () => {
             </el-popconfirm>
           </li>
           <li><a href="javascript:;">我的订单</a></li>
-          <li><a href="javascript:;">会员中心</a></li>
+          <li><a href="javascript:;" @click="$router.push('/member')">会员中心</a></li>
+
         </template>
         <template v-else>
           <li><a href="javascript:;" @click="$router.push('/login')">请先登录</a></li>

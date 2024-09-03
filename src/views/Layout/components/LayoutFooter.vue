@@ -56,7 +56,7 @@
             <a href="javascript:;">搜索推荐</a>
             <a href="javascript:;">友情链接</a>
           </p>
-          <p>CopyRight © 小兔鲜儿</p>
+          <p>CopyRight © CatStore</p>
         </div>
       </div>
     </div>
@@ -170,7 +170,7 @@
   }
 
   .extra {
-    background-color: #333;
+    background-color: #97cece;
   }
 
   .slogan {
@@ -205,7 +205,7 @@
     height: 170px;
     padding-top: 40px;
     text-align: center;
-    color: #999;
+    color: #fcf8f8;
     font-size: 15px;
 
     p {
@@ -214,7 +214,7 @@
     }
 
     a {
-      color: #999;
+      color: #050505;
       line-height: 1;
       padding: 0 10px;
       border-right: 1px solid #999;
